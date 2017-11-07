@@ -1,6 +1,17 @@
 function getConfig(request) {
   var service = getService();
-  var response = JSON.parse(UrlFetchApp.fetch("https://us4.api.mailchimp.com/3.0/lists?count=500&fields=lists.id,lists.name", {
+  
+  // set document variable for data center
+  var dc = JSON.parse(UrlFetchApp.fetch("https://login.mailchimp.com/oauth2/metadata", {
+    headers: {
+      Authorization: 'Bearer ' + service.getAccessToken()
+    }
+  })).dc;
+  var userProperties = PropertiesService.getUserProperties();
+  userProperties.setProperty('dc', dc);
+  //
+  
+  var response = JSON.parse(UrlFetchApp.fetch("https://" + dc + ".api.mailchimp.com/3.0/lists?count=500&fields=lists.id,lists.name", {
     headers: {
       Authorization: 'Bearer ' + service.getAccessToken()
     }
@@ -107,7 +118,13 @@ function getSchema(request) {
 
 function getData(request) {
   var service = getService();
-  var url = 'https://us4.api.mailchimp.com/3.0/reports?count=500&fields=reports.id,reports.campaign_title,reports.list_id,reports.send_time,reports.emails_sent,reports.opens.opens_total,reports.opens.open_rate,reports.clicks.clicks_total,reports.clicks.click_rate,reports.industry_stats.open_rate,reports.industry_stats.click_rate';
+  
+  // return data center variable
+  var userProperties = PropertiesService.getUserProperties();
+  var dc = userProperties.getProperty('dc');
+  //
+  
+  var url = 'https://' + dc + '.api.mailchimp.com/3.0/reports?count=500&fields=reports.id,reports.campaign_title,reports.list_id,reports.send_time,reports.emails_sent,reports.opens.opens_total,reports.opens.open_rate,reports.clicks.clicks_total,reports.clicks.click_rate,reports.industry_stats.open_rate,reports.industry_stats.click_rate';
   var response = UrlFetchApp.fetch(url, {
     headers: {
       'Authorization': 'Bearer ' + service.getAccessToken()
@@ -182,7 +199,7 @@ function getData(request) {
 };
 
 function isAdminUser() {
-  if (Session.getEffectiveUser().getEmail() == "#############@gmail.com") {
+  if (Session.getEffectiveUser().getEmail() == "##############@gmail.com") {
     return true;
   }
 }

@@ -1,5 +1,5 @@
-var CLIENT_ID = '###############';
-var CLIENT_SECRET = '#################################';
+var CLIENT_ID = '#############';
+var CLIENT_SECRET = '######################################';
 
 /*
  * Authorizes and makes a request to the Mailchimp API.
@@ -9,7 +9,12 @@ function runMCAuth(e) {
   var service = getService();
   var html = '';
   if (service.hasAccess()) {
-    var url = 'https://us4.api.mailchimp.com/3.0/lists';
+    var dc = JSON.parse(UrlFetchApp.fetch("https://login.mailchimp.com/oauth2/metadata", {
+      headers: {
+        Authorization: 'Bearer ' + service.getAccessToken()
+      }
+    })).dc;
+    var url = 'https://' + dc + '.api.mailchimp.com/3.0/lists';
     var response = UrlFetchApp.fetch(url, {
       headers: {
         'Authorization': 'Bearer ' + service.getAccessToken()
