@@ -1,0 +1,19 @@
+{
+  "timeZone": "Europe/London",
+  "dependencies": {
+    "libraries": [{
+      "userSymbol": "OAuth2",
+      "libraryId": "1B7FSrk5Zi6L1rSxxTDgDEUsPzlukDsi4KGuTMorsTQHhGBzBkMun4iDF",
+      "version": "22"
+    }]
+  },
+  "exceptionLogging": "CLOUD",
+  "dataStudio": {
+    "name": "Mailchimp Connector",
+    "logoUrl": "http://tests.shuttlefi.sh/tests/images/fish_dark.png",
+    "company": "Shuttlefish Creative",
+    "addonUrl": "http://shuttlefi.sh/",
+    "supportUrl": "http://shuttlefi.sh/",
+    "description": "This connector uses the Mailchimp API to retrieve Analytics from Mailchimp."
+  }
+}
